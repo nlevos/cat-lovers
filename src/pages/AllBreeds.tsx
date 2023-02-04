@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import NavbarComponent from "../components/NavbarComponent";
-import { Button, Col, Modal, Row } from "react-bootstrap";
+import { Button, Col, Modal, Row, Spinner } from "react-bootstrap";
 import CatBreedCard from "../components/CatBreedCard";
 import { IBreedsEntryProps } from "./Breeds";
 import { Breed } from "../models/breed";
+import { CatImage } from "../models/catImage";
+import CatImageCard from "../components/CatImageCard";
 
 export default function AllBreeds(
   props: React.PropsWithChildren<IBreedsEntryProps>
 ) {
-  const { breeds } = props;
+  const { breeds, images } = props;
   const [show, setShow] = useState(false);
   const [selBreed, setSelBreed] = useState<Breed>();
+  const [selImages, setSelImages] = useState<CatImage[]>();
+  const [loading, setLoading] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,6 +22,14 @@ export default function AllBreeds(
   const handleShowModal = (id: string) => {
     const breed = breeds.find((x) => x.id === id);
     setSelBreed(breed);
+    let _images = images.filter(
+      (x) =>
+        x.breeds &&
+        x.breeds.length > 0 &&
+        x.breeds.findIndex((y) => y.id === breed?.id) != -1
+    );
+    if (_images) setSelImages(_images);
+    debugger;
     setShow(true);
   };
 
@@ -29,6 +41,35 @@ export default function AllBreeds(
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {selImages && selImages.length > 0 ? (
+          <>
+            list of images
+            <div className="wrapper mt-4">
+              <Row md={3} xs={1} lg={4} className="g-4">
+                {selImages?.map((item) => (
+                  <Col
+                    key={item.id}
+                    // onClick={() => handleShowImageClick(item.id)}
+                  >
+                    <div>
+                      <CatImageCard
+                        image={item}
+                        size="small"
+                        // tvShow={false}
+                      />
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          </>
+        ) : (
+          <>
+            There are no images for this breed loaded, click the button to load
+            some:
+          </>
+        )}
+
         {/* <CatImageCard
           image={selImage}
           // tvShow={false}
@@ -54,6 +95,23 @@ export default function AllBreeds(
             ? "Remove from favourites"
             : "Add to favourites"}
         </Button> */}
+        <Button>
+          {/* onClick={() => handleLoadImagesClick()}> */}
+          {loading ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              &nbsp;Loading...
+            </>
+          ) : (
+            <>Load breed images</>
+          )}
+        </Button>
         <Button variant="primary" onClick={handleClose}>
           Close
         </Button>

@@ -34,3 +34,7 @@ li {
 .navbar {
   background-color: #161616 !important;
 }
+
+.card-body {
+  padding: 5px !important;
+}
