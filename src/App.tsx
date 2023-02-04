@@ -23,12 +23,32 @@ function App() {
     });
   };
 
+  const handleToggleFavouriteClick = (image: CatImage) => {
+    let _images = [...images];
+    // if (image.isFavourite) {
+    //   image.isFavourite = false;
+    // } else {
+    //   image.isFavourite = false;
+    // }
+
+    image.isFavourite = !image.isFavourite;
+    let index = _images.findIndex((x) => x.id === image.id);
+    _images[index] = image;
+    setImages(_images);
+  };
+
   return (
     <>
       <Routes>
         <Route
           path="/"
-          element={<Home images={images} loadImages={loadImages} />}
+          element={
+            <Home
+              images={images}
+              loadImages={loadImages}
+              toggleFavourite={handleToggleFavouriteClick}
+            />
+          }
         />
         <Route
           path="/breeds"

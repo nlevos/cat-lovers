@@ -6,6 +6,7 @@ export interface CatImage {
   width: number;
   height: number;
   breeds?: Breed[];
+  isFavourite?: boolean;
 
   // // [index: string]: any; // number | string | boolean;
 

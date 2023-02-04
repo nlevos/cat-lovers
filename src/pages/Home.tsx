@@ -14,10 +14,12 @@ interface IHomeEntryProps {
   images: CatImage[];
   /**  */
   loadImages(): void;
+  /**  */
+  toggleFavourite(image: CatImage): void;
 }
 
 export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
-  const { images, loadImages } = props;
+  const { images, loadImages, toggleFavourite } = props;
   const [selImage, setSelImage] = useState<CatImage>();
   const [show, setShow] = useState(false);
 
@@ -26,6 +28,17 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
 
   const handleLoadImagesClick = async () => {
     loadImages();
+  };
+
+  const handleToggleFavouriteClick = () => {
+    let image = { ...selImage } as CatImage;
+    if (image.isFavourite) {
+      image.isFavourite = false;
+      setSelImage(image);
+    } else {
+      image.isFavourite = false;
+      setSelImage(image);
+    }
   };
 
   const handleShowImageClick = (id: string) => {
@@ -57,10 +70,22 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
       </div>
     );
 
+  const breedsMarkup =
+    selImage && selImage.breeds && selImage.breeds.length > 0 ? (
+      <>
+        Breeds:&nbsp;
+        {selImage.breeds
+          .map((breed) => breed.name + " (" + breed.alt_names + ")")
+          .join(", ")}
+        <br />
+        <br />
+      </>
+    ) : undefined;
+
   const modalMarkup = (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Image information</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <CatImageCard
@@ -68,14 +93,28 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
           // tvShow={false}
         />
         <br />
-        Woohoo, you're reading this text in a modal!
+        {breedsMarkup}
+        <Button
+          onClick={() => {
+            navigator.clipboard.writeText(selImage?.url || "");
+          }}
+        >
+          Copy to clipboard to share
+        </Button>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
+        <Button
+          variant={selImage && selImage.isFavourite ? "danger" : "primary"}
+          onClick={() => {
+            if (selImage) toggleFavourite(selImage);
+          }}
+        >
+          {selImage && selImage.isFavourite
+            ? "Remove from favourites"
+            : "Add to favourites"}
         </Button>
         <Button variant="primary" onClick={handleClose}>
-          Save Changes
+          Close
         </Button>
       </Modal.Footer>
     </Modal>
