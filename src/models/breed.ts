@@ -1,11 +1,8 @@
-import { Breed } from "./breed";
-
-export interface CatImage {
+export interface Breed {
   id: string;
-  url: string;
-  width: number;
-  height: number;
-  breeds?: Breed[];
+  name: string;
+  alt_names?: string;
+  decription?: string;
 
   // // [index: string]: any; // number | string | boolean;
 

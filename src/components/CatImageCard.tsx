@@ -1,10 +1,11 @@
 import { Card } from "react-bootstrap";
 import { CatImage } from "../models/catImage";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { IMAGE_UNAVAILABLE_PLACEHOLDER } from "../constants";
 
 interface ICatImageCardProps {
   /**  */
-  image: CatImage;
+  image?: CatImage;
 }
 
 export default function CatImageCard(
@@ -38,7 +39,8 @@ export default function CatImageCard(
       <Card.Body>
         <LazyLoadImage
           src={
-            image.url
+            // image.url
+            !image?.url ? IMAGE_UNAVAILABLE_PLACEHOLDER : image.url
             // !movie.poster_path || !movie.backdrop_path
             //   ? IMAGE_UNAVAILABLE_PLACEHOLDER
             //   : `${IMAGE_LINK}${movie.backdrop_path}`

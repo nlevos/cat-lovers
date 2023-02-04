@@ -6,6 +6,9 @@ import React from "react";
 import { useState } from "react";
 import { CatImage } from "./models/catImage";
 import agent from "./api/agent";
+import Breeds from "./pages/Breeds";
+import Favourites from "./pages/Favourites";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [images, setImages] = useState<CatImage[]>([]);
@@ -27,6 +30,15 @@ function App() {
           path="/"
           element={<Home images={images} loadImages={loadImages} />}
         />
+        <Route
+          path="/breeds"
+          element={<Breeds images={images} loadImages={loadImages} />}
+        />
+        <Route
+          path="/favourites"
+          element={<Favourites images={images} loadImages={loadImages} />}
+        />
+        <Route path="*" element={<NotFound />} />
         {/* <Route path="/movies" element={<Movies />} />
         <Route path="/tv-series" element={<TvSeries />} />
         <Route path="/search" element={<Search />} />
