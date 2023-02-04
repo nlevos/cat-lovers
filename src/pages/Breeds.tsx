@@ -8,8 +8,12 @@ import agent from "../api/agent";
 import { CatImage } from "../models/catImage";
 import { Col, Row } from "react-bootstrap";
 import CatImageCard from "../components/CatImageCard";
+import { Breed } from "../models/breed";
+import CatBreedCard from "../components/CatBreedCard";
 
 interface IBreedsEntryProps {
+  /**  */
+  breeds: Breed[];
   /**  */
   images: CatImage[];
   /**  */
@@ -19,12 +23,30 @@ interface IBreedsEntryProps {
 export default function Breeds(
   props: React.PropsWithChildren<IBreedsEntryProps>
 ) {
-  const { images, loadImages } = props;
+  const { breeds, images, loadImages } = props;
 
   // const {trendings,trendingTotalPages}=useContext(MovieContext)
 
   // const imgs = agent.CatImages.list(10).then(() => {});
   // console.table(imgs);
+
+  const breedsMarkup =
+    breeds.length === 0 ? (
+      <h2>There is no breeds info loaded</h2>
+    ) : (
+      <div className="wrapper mt-4">
+        <Row md={3} xs={1} lg={4} className="g-4">
+          {breeds?.map((item) => (
+            <Col key={item.id}>
+              <CatBreedCard
+                breed={item}
+                // tvShow={false}
+              />
+            </Col>
+          ))}
+        </Row>
+      </div>
+    );
 
   const imagesMarkup =
     images.length === 0 ? undefined : (
@@ -43,16 +65,13 @@ export default function Breeds(
     );
 
   useEffect(() => {
-    if (images.length === 0) {
-      loadImages();
-    }
-
-    const imgs = agent.CatImages.list(10).then((res) => {
-      console.table(res);
-    });
-
-    console.table(imgs);
-
+    // if (images.length === 0) {
+    //   loadImages();
+    // }
+    // const imgs = agent.CatImages.list(10).then((res) => {
+    //   console.table(res);
+    // });
+    // console.table(imgs);
     // if (this.state.breeds.length===0) {
     //     (async () => {
     //         try {
@@ -69,7 +88,8 @@ export default function Breeds(
     <>
       <NavbarComponent />
       <h1>test</h1>
-      {imagesMarkup}
+      {breedsMarkup}
+      {/* {imagesMarkup} */}
       {/* <Container className='mt-4'>
   <Row md={3} xs={1} lg={4} className="g-4">
     {trendings?.map((item)=>

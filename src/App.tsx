@@ -2,18 +2,31 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { CatImage } from "./models/catImage";
 import agent from "./api/agent";
 import Breeds from "./pages/Breeds";
 import Favourites from "./pages/Favourites";
 import NotFound from "./pages/NotFound";
+import { Breed } from "./models/breed";
 
 function App() {
   const [images, setImages] = useState<CatImage[]>([]);
+  const [favImages, setFavImages] = useState<CatImage[]>([]);
+  const [breeds, setBreeds] = useState<Breed[]>([]);
+  const [allBreeds, setAllBreeds] = useState<Breed[]>([]);
+
+  const loadBreeds = async () => {
+    console.log("loadBreeds");
+    agent.Breeds.list().then((res) => {
+      setAllBreeds(res);
+      console.table(res);
+    });
+  };
 
   const loadImages = async () => {
+    console.log("loadImages");
     // await loadTotals();
     let _images = [...images];
     const imgs = agent.CatImages.list(10).then((res) => {
@@ -21,6 +34,26 @@ function App() {
       setImages(_images);
       console.table(res);
     });
+
+    let _breeds = [...breeds];
+    //debugger;
+    _images.forEach((image) => {
+      //debugger;
+      if (image.breeds && image.breeds.length > 0) {
+        // debugger;
+        image.breeds.forEach((breed) => {
+          let _breed = _breeds.find((x) => x.id === breed.id);
+          // debugger;
+          if (!_breed) {
+            _breed = { ...breed };
+            _breed.demoImageUrl = image.url;
+            _breeds.push(_breed);
+          }
+        });
+      }
+    });
+
+    setBreeds(_breeds);
   };
 
   const handleToggleFavouriteClick = (image: CatImage) => {
@@ -35,7 +68,20 @@ function App() {
     let index = _images.findIndex((x) => x.id === image.id);
     _images[index] = image;
     setImages(_images);
+
+    let _favImages = _images.filter((x) => x.isFavourite);
+    setFavImages(_favImages);
   };
+
+  useEffect(() => {
+    console.log("useEffect");
+    if (images.length === 0) {
+      loadImages();
+    }
+    if (allBreeds.length === 0) {
+      loadBreeds();
+    }
+  }, []);
 
   return (
     <>
@@ -52,11 +98,18 @@ function App() {
         />
         <Route
           path="/breeds"
-          element={<Breeds images={images} loadImages={loadImages} />}
+          element={
+            <Breeds breeds={breeds} images={images} loadImages={loadImages} />
+          }
         />
         <Route
           path="/favourites"
-          element={<Favourites images={images} loadImages={loadImages} />}
+          element={
+            <Favourites
+              images={favImages}
+              toggleFavourite={handleToggleFavouriteClick}
+            />
+          }
         />
         <Route path="*" element={<NotFound />} />
         {/* <Route path="/movies" element={<Movies />} />

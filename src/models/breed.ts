@@ -3,6 +3,7 @@ export interface Breed {
   name: string;
   alt_names?: string;
   decription?: string;
+  demoImageUrl?: string;
 
   // // [index: string]: any; // number | string | boolean;
 

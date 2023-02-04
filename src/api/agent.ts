@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { Breed } from "../models/breed";
 import { CatImage } from "../models/catImage";
 
 axios.defaults.baseURL = "https://api.thecatapi.com/v1";
@@ -13,6 +14,10 @@ const requests = {
     axios.post<T>(url, body).then(responseBody),
   put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
   del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+};
+
+const Breeds = {
+  list: () => requests.get<Breed[]>(`/breeds`),
 };
 
 const CatImages = {
@@ -42,6 +47,7 @@ const CatImages = {
 };
 
 const agent = {
+  Breeds,
   CatImages,
 };
 
