@@ -7,12 +7,14 @@ import { motion } from "framer-motion";
 interface ICatImageCardProps {
   /**  */
   image?: CatImage;
+  /**  */
+  size?: "small" | "large";
 }
 
 export default function CatImageCard(
   props: React.PropsWithChildren<ICatImageCardProps>
 ) {
-  const { image } = props;
+  const { image, size } = props;
   // export const CatImageCard = ({ image: CatImage }) => {
   // const navigate = useNavigate();
 
@@ -48,7 +50,7 @@ export default function CatImageCard(
               //   : `${IMAGE_LINK}${movie.backdrop_path}`
             }
             width={"100%"}
-            height={350}
+            height={size && size === "small" ? 100 : 350}
             alt="movie"
             effect="blur"
             style={{ objectFit: "cover" }}

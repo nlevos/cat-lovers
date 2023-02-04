@@ -42,7 +42,9 @@ export default function CatBreedCard(
         <LazyLoadImage
           src={
             // image.url
-            !breed?.demoImageUrl
+            breed?.image && breed?.image?.url
+              ? breed.image.url
+              : !breed?.demoImageUrl
               ? IMAGE_UNAVAILABLE_PLACEHOLDER
               : breed.demoImageUrl
             // !movie.poster_path || !movie.backdrop_path
@@ -51,7 +53,7 @@ export default function CatBreedCard(
           }
           width={"100%"}
           height={350}
-          alt="movie"
+          alt={`${breed?.name}, ${breed?.alt_names}`}
           effect="blur"
           style={{ objectFit: "cover" }}
         />

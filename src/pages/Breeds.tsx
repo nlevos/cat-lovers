@@ -11,7 +11,7 @@ import CatImageCard from "../components/CatImageCard";
 import { Breed } from "../models/breed";
 import CatBreedCard from "../components/CatBreedCard";
 
-interface IBreedsEntryProps {
+export interface IBreedsEntryProps {
   /**  */
   breeds: Breed[];
   /**  */

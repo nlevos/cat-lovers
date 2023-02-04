@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { Col, Container, Row } from 'react-bootstrap'
 // import { MovieCard } from '../components/MovieCard'
 import NavbarComponent from "../components/NavbarComponent";
@@ -6,7 +6,7 @@ import NavbarComponent from "../components/NavbarComponent";
 // import { MovieContext } from '../context/MovieContext'
 import agent from "../api/agent";
 import { CatImage } from "../models/catImage";
-import { Col, Container, Row, Button, Modal } from "react-bootstrap";
+import { Col, Container, Row, Button, Modal, Spinner } from "react-bootstrap";
 import CatImageCard from "../components/CatImageCard";
 
 interface IHomeEntryProps {
@@ -22,11 +22,14 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
   const { images, loadImages, toggleFavourite } = props;
   const [selImage, setSelImage] = useState<CatImage>();
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleLoadImagesClick = async () => {
+    setLoading(true);
     loadImages();
   };
 
@@ -105,6 +108,12 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
   );
 
   useEffect(() => {
+    if (images.length > 0) setLoading(false);
+    if (images.length > 10 && buttonRef && buttonRef.current !== null) {
+      //buttonRef.current.scrollIntoView();
+      window.scrollBy(0, 350);
+      //emailRef.current.focus();
+    }
     // if (images.length === 0) {
     //   loadImages();
     // }
@@ -122,16 +131,32 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
     //         }
     //     })();
     // }
-  }, []);
+  }, [images]);
 
   return (
     <>
       <NavbarComponent />
       {imagesMarkup}
       <Container>
-        <Row md={3} xs={1} lg={4} className="g-4">
+        <Row md={1} xs={1} lg={1} className="g-4">
           <Col>
-            <Button onClick={() => handleLoadImagesClick()}>Load More</Button>
+            <Button ref={buttonRef} onClick={() => handleLoadImagesClick()}>
+              {loading ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  &nbsp;Loading...
+                </>
+              ) : (
+                <>Load More</>
+              )}
+            </Button>
+            {/* <div ref={buttonRef}></div> */}
           </Col>
         </Row>
       </Container>

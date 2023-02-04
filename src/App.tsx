@@ -10,6 +10,7 @@ import Breeds from "./pages/Breeds";
 import Favourites from "./pages/Favourites";
 import NotFound from "./pages/NotFound";
 import { Breed } from "./models/breed";
+import AllBreeds from "./pages/AllBreeds";
 
 function App() {
   const [images, setImages] = useState<CatImage[]>([]);
@@ -100,6 +101,16 @@ function App() {
           path="/breeds"
           element={
             <Breeds breeds={breeds} images={images} loadImages={loadImages} />
+          }
+        />
+        <Route
+          path="/allbreeds"
+          element={
+            <AllBreeds
+              breeds={allBreeds}
+              images={images}
+              loadImages={loadImages}
+            />
           }
         />
         <Route

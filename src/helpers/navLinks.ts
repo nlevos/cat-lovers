@@ -14,12 +14,18 @@ export const nav_links = [
   },
   {
     id: 2,
-    title: "Breeds",
+    title: "Filtered Breeds",
     icon: HashtagIcon,
     href: "/breeds",
   },
   {
     id: 3,
+    title: "All Breeds",
+    icon: HashtagIcon,
+    href: "/allbreeds",
+  },
+  {
+    id: 4,
     title: "My Favourites",
     icon: HeartIcon,
     href: "/favourites",
