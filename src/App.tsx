@@ -26,9 +26,16 @@ function App() {
     });
   };
 
+  const loadImagesByBreed = async (breedId: string) => {
+    let _images = [...images];
+    const imgs = agent.CatImages.listByBreed(breedId, 10).then((res) => {
+      _images.push(...res);
+      setImages(_images);
+      console.table(res);
+    });
+  };
+
   const loadImages = async () => {
-    console.log("loadImages");
-    // await loadTotals();
     let _images = [...images];
     const imgs = agent.CatImages.list(10).then((res) => {
       _images.push(...res);
@@ -37,14 +44,10 @@ function App() {
     });
 
     let _breeds = [...breeds];
-    //debugger;
     _images.forEach((image) => {
-      //debugger;
       if (image.breeds && image.breeds.length > 0) {
-        // debugger;
         image.breeds.forEach((breed) => {
           let _breed = _breeds.find((x) => x.id === breed.id);
-          // debugger;
           if (!_breed) {
             _breed = { ...breed };
             _breed.demoImageUrl = image.url;
@@ -59,12 +62,6 @@ function App() {
 
   const handleToggleFavouriteClick = (image: CatImage) => {
     let _images = [...images];
-    // if (image.isFavourite) {
-    //   image.isFavourite = false;
-    // } else {
-    //   image.isFavourite = false;
-    // }
-
     image.isFavourite = !image.isFavourite;
     let index = _images.findIndex((x) => x.id === image.id);
     _images[index] = image;
@@ -100,7 +97,12 @@ function App() {
         <Route
           path="/breeds"
           element={
-            <Breeds breeds={breeds} images={images} loadImages={loadImages} />
+            <Breeds
+              breeds={breeds}
+              images={images}
+              loadImages={loadImages}
+              loadImagesByBreed={loadImagesByBreed}
+            />
           }
         />
         <Route
@@ -110,6 +112,7 @@ function App() {
               breeds={allBreeds}
               images={images}
               loadImages={loadImages}
+              loadImagesByBreed={loadImagesByBreed}
             />
           }
         />

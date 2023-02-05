@@ -10,14 +10,19 @@ import CatImageCard from "../components/CatImageCard";
 export default function AllBreeds(
   props: React.PropsWithChildren<IBreedsEntryProps>
 ) {
-  const { breeds, images } = props;
+  const { breeds, images, loadImagesByBreed } = props;
   const [show, setShow] = useState(false);
   const [selBreed, setSelBreed] = useState<Breed>();
   const [selImages, setSelImages] = useState<CatImage[]>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleLoadImagesClick = async () => {
+    setLoading(true);
+    if (selBreed?.id) loadImagesByBreed(selBreed?.id);
+  };
 
   const handleShowModal = (id: string) => {
     const breed = breeds.find((x) => x.id === id);
@@ -43,7 +48,7 @@ export default function AllBreeds(
       <Modal.Body>
         {selImages && selImages.length > 0 ? (
           <>
-            list of images
+            {/* list of images */}
             <div className="wrapper mt-4">
               <Row md={3} xs={1} lg={4} className="g-4">
                 {selImages?.map((item) => (
@@ -64,10 +69,10 @@ export default function AllBreeds(
             </div>
           </>
         ) : (
-          <>
+          <p style={{ color: "black" }}>
             There are no images for this breed loaded, click the button to load
             some:
-          </>
+          </p>
         )}
 
         {/* <CatImageCard
@@ -95,8 +100,7 @@ export default function AllBreeds(
             ? "Remove from favourites"
             : "Add to favourites"}
         </Button> */}
-        <Button>
-          {/* onClick={() => handleLoadImagesClick()}> */}
+        <Button disabled={loading} onClick={() => handleLoadImagesClick()}>
           {loading ? (
             <>
               <Spinner
@@ -137,7 +141,9 @@ export default function AllBreeds(
       </div>
     );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setLoading(false);
+  }, [images]);
 
   return (
     <>

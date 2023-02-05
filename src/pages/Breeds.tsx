@@ -18,6 +18,8 @@ export interface IBreedsEntryProps {
   images: CatImage[];
   /**  */
   loadImages(): void;
+  /**  */
+  loadImagesByBreed(breedId: string): void;
 }
 
 export default function Breeds(

@@ -23,27 +23,10 @@ const Breeds = {
 const CatImages = {
   list: (limit: number) =>
     requests.get<CatImage[]>(`/images/search?limit=${limit}`),
-  // get: (params: Audience) =>
-  //   requests.post<Result<Audience>>("/audiences/create", params),
-  // // createSchedule: (params: Schedule) =>
-  // //   requests.post<Result<Schedule>>("/schedules/create", params),
-  // delete: (params: CommonIdParams) =>
-  //   requests.post<Result<boolean>>("/audiences/delete", params),
-  // // deleteReportSchedule: (params: CommonIdParams) =>
-  // //   requests.post<Result<boolean>>("/reports/delete_schedule", params),
-  // // deleteSchedule: (params: CommonIdParams) =>
-  // //   requests.post<Result<boolean>>("/schedules/delete", params),
-  // list: () => requests.get<Result<Audience[]>>("/audiences/list"),
-  // // listSchedules: () => requests.get<Result<Schedule[]>>("/schedules/list"),
-  // load: (id: string) => requests.get<Result<Audience>>(`/audiences/${id}`),
-  // // pauseReportSchedule: (params: CommonIdParams) =>
-  // //   requests.post<Result<boolean>>("/reports/pause_schedule", params),
-  // rename: (params: CommonRenameParams) =>
-  //   requests.post<Result<boolean>>("/audiences/rename", params),
-  // // startReportSchedule: (params: CommonIdParams) =>
-  // //   requests.post<Result<boolean>>("/reports/start_schedule", params),
-  // update: (params: Audience) =>
-  //   requests.post<Result<Audience>>("/audiences/update", params),
+  listByBreed: (breedId: string, limit: number) =>
+    requests.get<CatImage[]>(
+      `/images/search?breed_ids=${breedId}&limit=${limit}`
+    ),
 };
 
 const agent = {
