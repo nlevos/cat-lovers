@@ -6,22 +6,32 @@ import { IBreedsEntryProps } from "./Breeds";
 import { Breed } from "../models/breed";
 import { CatImage } from "../models/catImage";
 import CatImageCard from "../components/CatImageCard";
+import CatImageModal from "../components/CatImageModal";
 
 export default function AllBreeds(
   props: React.PropsWithChildren<IBreedsEntryProps>
 ) {
-  const { breeds, images, loadImagesByBreed } = props;
+  const { breeds, images, loadImagesByBreed, toggleFavourite } = props;
   const [show, setShow] = useState(false);
+  const [showImage, setShowImage] = useState(false);
   const [selBreed, setSelBreed] = useState<Breed>();
   const [selImages, setSelImages] = useState<CatImage[]>();
+  const [selImage, setSelImage] = useState<CatImage>();
   const [loading, setLoading] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseImage = () => setShowImage(false);
 
   const handleLoadImagesClick = async () => {
     setLoading(true);
     if (selBreed?.id) loadImagesByBreed(selBreed?.id);
+  };
+
+  const handleShowImageClick = (id: string) => {
+    const image = images.find((x) => x.id === id);
+    setSelImage(image);
+    setShowImage(true);
   };
 
   const handleShowModal = (id: string) => {
@@ -54,7 +64,7 @@ export default function AllBreeds(
                 {selImages?.map((item) => (
                   <Col
                     key={item.id}
-                    // onClick={() => handleShowImageClick(item.id)}
+                    onClick={() => handleShowImageClick(item.id)}
                   >
                     <div>
                       <CatImageCard
@@ -138,6 +148,15 @@ export default function AllBreeds(
       </div>
     );
 
+  const catModalMarkup = (
+    <CatImageModal
+      show={showImage}
+      image={selImage}
+      onHide={handleCloseImage}
+      onToggleFavourite={toggleFavourite}
+    ></CatImageModal>
+  );
+
   useEffect(() => {
     setLoading(false);
     if (selBreed) {
@@ -156,6 +175,7 @@ export default function AllBreeds(
       <NavbarComponent />
       {breedsMarkup}
       {modalMarkup}
+      {catModalMarkup}
     </>
   );
 }

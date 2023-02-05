@@ -20,12 +20,14 @@ export interface IBreedsEntryProps {
   loadImages(): void;
   /**  */
   loadImagesByBreed(breedId: string): void;
+  /**  */
+  toggleFavourite(image: CatImage): void;
 }
 
 export default function Breeds(
   props: React.PropsWithChildren<IBreedsEntryProps>
 ) {
-  const { breeds, images, loadImages } = props;
+  const { breeds, images, loadImages, toggleFavourite } = props;
 
   // const {trendings,trendingTotalPages}=useContext(MovieContext)
 

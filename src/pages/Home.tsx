@@ -8,6 +8,7 @@ import agent from "../api/agent";
 import { CatImage } from "../models/catImage";
 import { Col, Container, Row, Button, Modal, Spinner } from "react-bootstrap";
 import CatImageCard from "../components/CatImageCard";
+import CatImageModal from "../components/CatImageModal";
 
 interface IHomeEntryProps {
   /**  */
@@ -46,10 +47,7 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
           {images?.map((item) => (
             <Col key={item.id} onClick={() => handleShowImageClick(item.id)}>
               <div>
-                <CatImageCard
-                  image={item}
-                  // tvShow={false}
-                />
+                <CatImageCard image={item} />
               </div>
             </Col>
           ))}
@@ -57,54 +55,13 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
       </div>
     );
 
-  const breedsMarkup =
-    selImage && selImage.breeds && selImage.breeds.length > 0 ? (
-      <>
-        Breeds:&nbsp;
-        {selImage.breeds
-          .map((breed) => breed.name + " (" + breed.alt_names + ")")
-          .join(", ")}
-        <br />
-        <br />
-      </>
-    ) : undefined;
-
   const modalMarkup = (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Image information</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <CatImageCard
-          image={selImage}
-          // tvShow={false}
-        />
-        <br />
-        {breedsMarkup}
-        <Button
-          onClick={() => {
-            navigator.clipboard.writeText(selImage?.url || "");
-          }}
-        >
-          Copy to clipboard to share
-        </Button>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          variant={selImage && selImage.isFavourite ? "danger" : "primary"}
-          onClick={() => {
-            if (selImage) toggleFavourite(selImage);
-          }}
-        >
-          {selImage && selImage.isFavourite
-            ? "Remove from favourites"
-            : "Add to favourites"}
-        </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <CatImageModal
+      show={show}
+      image={selImage}
+      onHide={handleClose}
+      onToggleFavourite={toggleFavourite}
+    ></CatImageModal>
   );
 
   useEffect(() => {
@@ -114,23 +71,6 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
       window.scrollBy(0, 350);
       //emailRef.current.focus();
     }
-    // if (images.length === 0) {
-    //   loadImages();
-    // }
-    // const imgs = agent.CatImages.list(10).then((res) => {
-    //   console.table(res);
-    // });
-    // console.table(imgs);
-    // if (this.state.breeds.length===0) {
-    //     (async () => {
-    //         try {
-    //             this.setState({breeds: await this.getBreeds()});
-    //         } catch (e) {
-    //             //...handle the error...
-    //             console.error(e)
-    //         }
-    //     })();
-    // }
   }, [images]);
 
   return (

@@ -108,6 +108,7 @@ function App() {
               images={images}
               loadImages={loadImages}
               loadImagesByBreed={loadImagesByBreed}
+              toggleFavourite={handleToggleFavouriteClick}
             />
           }
         />
@@ -119,6 +120,7 @@ function App() {
               images={images}
               loadImages={loadImages}
               loadImagesByBreed={loadImagesByBreed}
+              toggleFavourite={handleToggleFavouriteClick}
             />
           }
         />
