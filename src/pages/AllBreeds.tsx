@@ -125,16 +125,13 @@ export default function AllBreeds(
 
   const breedsMarkup =
     breeds.length === 0 ? (
-      <h2>There is no breeds info loaded</h2>
+      <h2 style={{ color: "black" }}>There is no breeds info loaded</h2>
     ) : (
       <div className="wrapper mt-4">
         <Row md={3} xs={1} lg={4} className="g-4">
           {breeds?.map((item) => (
             <Col key={item.id} onClick={() => handleShowModal(item.id)}>
-              <CatBreedCard
-                breed={item}
-                // tvShow={false}
-              />
+              <CatBreedCard breed={item} />
             </Col>
           ))}
         </Row>
@@ -143,6 +140,15 @@ export default function AllBreeds(
 
   useEffect(() => {
     setLoading(false);
+    if (selBreed) {
+      let _images = images.filter(
+        (x) =>
+          x.breeds &&
+          x.breeds.length > 0 &&
+          x.breeds.findIndex((y) => y.id === selBreed?.id) != -1
+      );
+      if (_images) setSelImages(_images);
+    }
   }, [images]);
 
   return (

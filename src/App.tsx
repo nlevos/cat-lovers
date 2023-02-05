@@ -28,8 +28,11 @@ function App() {
 
   const loadImagesByBreed = async (breedId: string) => {
     let _images = [...images];
-    const imgs = agent.CatImages.listByBreed(breedId, 10).then((res) => {
-      _images.push(...res);
+    agent.CatImages.listByBreed(breedId, 10).then((res) => {
+      let newImages = res.filter((x) => {
+        return !_images.find((image) => image.id === x.id);
+      });
+      _images.push(...newImages);
       setImages(_images);
       console.table(res);
     });
@@ -38,7 +41,10 @@ function App() {
   const loadImages = async () => {
     let _images = [...images];
     const imgs = agent.CatImages.list(10).then((res) => {
-      _images.push(...res);
+      let newImages = res.filter((x) => {
+        return !_images.find((image) => image.id === x.id);
+      });
+      _images.push(...newImages);
       setImages(_images);
       console.table(res);
     });
