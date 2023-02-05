@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-// import { Col, Container, Row } from 'react-bootstrap'
-// import { MovieCard } from '../components/MovieCard'
 import NavbarComponent from "../components/NavbarComponent";
-// import { PaginationComp } from '../components/PaginationComp'
-// import { MovieContext } from '../context/MovieContext'
-import agent from "../api/agent";
 import { CatImage } from "../models/catImage";
 import { Col, Container, Row, Button, Modal, Spinner } from "react-bootstrap";
 import CatImageCard from "../components/CatImageCard";
@@ -30,8 +25,13 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
   const handleShow = () => setShow(true);
 
   const handleLoadImagesClick = async () => {
-    setLoading(true);
     loadImages();
+    setTimeout(() => {
+      setLoading(false);
+      if (images.length % 4 === 0) {
+        window.scrollBy(0, 350);
+      }
+    }, 3000);
   };
 
   const handleShowImageClick = (id: string) => {
@@ -66,11 +66,6 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
 
   useEffect(() => {
     if (images.length > 0) setLoading(false);
-    if (images.length > 10 && buttonRef && buttonRef.current !== null) {
-      //buttonRef.current.scrollIntoView();
-      window.scrollBy(0, 350);
-      //emailRef.current.focus();
-    }
   }, [images]);
 
   return (
@@ -80,7 +75,13 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
       <Container>
         <Row md={1} xs={1} lg={1} className="g-4">
           <Col>
-            <Button ref={buttonRef} onClick={() => handleLoadImagesClick()}>
+            <Button
+              ref={buttonRef}
+              onClick={() => {
+                setLoading(true);
+                handleLoadImagesClick();
+              }}
+            >
               {loading ? (
                 <>
                   <Spinner
@@ -96,7 +97,6 @@ export default function Home(props: React.PropsWithChildren<IHomeEntryProps>) {
                 <>Load More</>
               )}
             </Button>
-            {/* <div ref={buttonRef}></div> */}
           </Col>
         </Row>
       </Container>

@@ -1,4 +1,3 @@
-// import logo from "./logo.svg";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -19,10 +18,8 @@ function App() {
   const [allBreeds, setAllBreeds] = useState<Breed[]>([]);
 
   const loadBreeds = async () => {
-    console.log("loadBreeds");
     agent.Breeds.list().then((res) => {
       setAllBreeds(res);
-      console.table(res);
     });
   };
 
@@ -34,7 +31,6 @@ function App() {
       });
       _images.push(...newImages);
       setImages(_images);
-      console.table(res);
     });
   };
 
@@ -46,7 +42,6 @@ function App() {
       });
       _images.push(...newImages);
       setImages(_images);
-      console.table(res);
     });
 
     let _breeds = [...breeds];
@@ -78,7 +73,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("useEffect");
     if (images.length === 0) {
       loadImages();
     }
@@ -106,7 +100,6 @@ function App() {
             <Breeds
               breeds={breeds}
               images={images}
-              loadImages={loadImages}
               loadImagesByBreed={loadImagesByBreed}
               toggleFavourite={handleToggleFavouriteClick}
             />
@@ -118,7 +111,6 @@ function App() {
             <AllBreeds
               breeds={allBreeds}
               images={images}
-              loadImages={loadImages}
               loadImagesByBreed={loadImagesByBreed}
               toggleFavourite={handleToggleFavouriteClick}
             />
