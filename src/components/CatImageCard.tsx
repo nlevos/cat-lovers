@@ -15,8 +15,6 @@ export default function CatImageCard(
   props: React.PropsWithChildren<ICatImageCardProps>
 ) {
   const { image, size } = props;
-  // export const CatImageCard = ({ image: CatImage }) => {
-  // const navigate = useNavigate();
 
   return (
     <motion.div
@@ -38,30 +36,16 @@ export default function CatImageCard(
           position: "relative",
           cursor: "pointer",
         }}
-        className=" movie-card"
       >
         <Card.Body>
           <LazyLoadImage
-            src={
-              // image.url
-              !image?.url ? IMAGE_UNAVAILABLE_PLACEHOLDER : image.url
-              // !movie.poster_path || !movie.backdrop_path
-              //   ? IMAGE_UNAVAILABLE_PLACEHOLDER
-              //   : `${IMAGE_LINK}${movie.backdrop_path}`
-            }
+            src={!image?.url ? IMAGE_UNAVAILABLE_PLACEHOLDER : image.url}
             width={"100%"}
             height={size && size === "small" ? 100 : 350}
-            alt="movie"
+            alt="cat image"
             effect="blur"
             style={{ objectFit: "cover" }}
           />
-          {/* <Card.Title
-          onClick={() => navigate(`/${movie.id}`)}
-          className="text-center mt-3"
-          style={{ cursor: "pointer" }}
-        >
-          {movie.name || movie.title}
-        </Card.Title> */}
         </Card.Body>
       </Card>
     </motion.div>

@@ -1,9 +1,4 @@
-import {
-  MagnifyingGlassIcon,
-  HomeIcon,
-  HashtagIcon,
-  HeartIcon,
-} from "@heroicons/react/24/outline";
+import { HomeIcon, HashtagIcon, HeartIcon } from "@heroicons/react/24/outline";
 
 export const nav_links = [
   {
@@ -30,10 +25,4 @@ export const nav_links = [
     icon: HeartIcon,
     href: "/favourites",
   },
-  //   {
-  //     id: 4,
-  //     title: "Search",
-  //     icon: MagnifyingGlassIcon,
-  //     href: "/search",
-  //   },
 ];

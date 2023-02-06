@@ -148,7 +148,7 @@ export default function Breeds(
       );
       if (_images) setSelImages(_images);
     }
-  }, [images]);
+  }, [images, selBreed]);
 
   return (
     <>

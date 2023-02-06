@@ -1,8 +1,5 @@
-import { Button, Card, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { CatImage } from "../models/catImage";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { IMAGE_UNAVAILABLE_PLACEHOLDER } from "../constants";
-import { motion } from "framer-motion";
 import CatImageCard from "./CatImageCard";
 
 interface ICatImageModalProps {
@@ -16,9 +13,6 @@ interface ICatImageModalProps {
   onHide?(): void;
   /**  */
   onToggleFavourite?(image: CatImage): void;
-
-  // /**  */
-  // size?: "small" | "large";
 }
 
 export default function CatImageModal(

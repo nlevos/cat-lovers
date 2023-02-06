@@ -9,7 +9,6 @@ import Breeds from "./pages/Breeds";
 import Favourites from "./pages/Favourites";
 import NotFound from "./pages/NotFound";
 import { Breed } from "./models/breed";
-import AllBreeds from "./pages/AllBreeds";
 
 function App() {
   const [images, setImages] = useState<CatImage[]>([]);
@@ -36,7 +35,7 @@ function App() {
 
   const loadImages = async () => {
     let _images = [...images];
-    const imgs = agent.CatImages.list(10).then((res) => {
+    agent.CatImages.list(10).then((res) => {
       let newImages = res.filter((x) => {
         return !_images.find((image) => image.id === x.id);
       });
@@ -108,7 +107,7 @@ function App() {
         <Route
           path="/allbreeds"
           element={
-            <AllBreeds
+            <Breeds
               breeds={allBreeds}
               images={images}
               loadImagesByBreed={loadImagesByBreed}
@@ -126,12 +125,6 @@ function App() {
           }
         />
         <Route path="*" element={<NotFound />} />
-        {/* <Route path="/movies" element={<Movies />} />
-        <Route path="/tv-series" element={<TvSeries />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/:id" element={<ShowInfo />} />
-        <Route path="/tv/:id" element={<ShowTvInfo />} />
-        <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </>
   );
